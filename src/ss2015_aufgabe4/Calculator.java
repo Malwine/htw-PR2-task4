@@ -28,7 +28,6 @@ public class Calculator extends JFrame implements ActionListener {
 	String calculation;
 	float number1;
 	float number2;
-	float result;
 	
 	Calculator() {
 		super();
@@ -160,6 +159,14 @@ public class Calculator extends JFrame implements ActionListener {
 		calculation = "minus";
 		number1 = to_F(this.textLabel.getText());
 	}
+	void divide(){
+		calculation = "divide";
+		number1 = to_F(this.textLabel.getText());
+	}
+	void multiply(){
+		calculation = "multiply";
+		number1 = to_F(this.textLabel.getText());
+	}
 
 	void equals(){
 		number2 = to_F(this.textLabel.getText());
@@ -170,9 +177,13 @@ public class Calculator extends JFrame implements ActionListener {
 		else if(calculation == "minus"){
 			this.textLabel.setText(to_S(number1 - number2));
 		}
+		else if(calculation == "divide"){
+			this.textLabel.setText(to_S(number1 / number2));
+		}
+		else if(calculation == "multiply"){
+			this.textLabel.setText(to_S(number1 * number2));
+		}
 	}
-	
-	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -215,7 +226,7 @@ public class Calculator extends JFrame implements ActionListener {
 			case "C": 
 				this.textLabel.setText("");
 				break;
-			//the action buttons:
+	//the action buttons:
 			case "+": 
 				add();
 				this.textLabel.setText("");
@@ -225,9 +236,11 @@ public class Calculator extends JFrame implements ActionListener {
 				this.textLabel.setText("");
 				break;
 			case "/": 
+				divide();
 				this.textLabel.setText("");
 				break;
-			case "*": 
+			case "*":
+				multiply();
 				this.textLabel.setText("");
 				break;
 			case ".": 
