@@ -18,27 +18,53 @@ import javax.swing.JPanel;
  */
 public class Calculator extends JFrame implements ActionListener {
 
+	JPanel textField;
 	JPanel buttonPanel;
+	JPanel panelC;
 	JButton plus, minus, divide, multiply, equals, openBracket, closingBracket, clear, dot,
 	  num1, num2, num3, num4, num5, num6, num7, num8, num9, num0;
 	JLabel textLabel;
+	
+	String calculation;
+	float number1;
+	float number2;
+	float result;
 	
 	Calculator() {
 		super();
 		this.setTitle("Handle action");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		textField = initTextField();
+		this.add(textField, BorderLayout.NORTH);
+		
+		buttonPanel = initButtonPanel();
+		buttonPanel.setLayout(new GridLayout(6,3));
+		this.add(buttonPanel, BorderLayout.CENTER);
+		
+		panelC = initPanelC();
+		panelC.setLayout(new GridLayout(1,1));
+		this.add(panelC,BorderLayout.SOUTH);
+		
+		this.setSize(250,350);
+		this.setVisible(true);
+	}
+	
+	private JPanel initTextField(){
+		JPanel panel = new JPanel();
 		textLabel = new JLabel("");
 		textLabel.setHorizontalAlignment(JLabel.CENTER);
 		textLabel.setFont(new Font("Verdana", Font.BOLD, 24));
-		this.add(textLabel, BorderLayout.NORTH);	     //add label to content pane
-		
-		buttonPanel = initButtonPanel();
-		buttonPanel.setLayout(new GridLayout(8,3));
-		this.add(buttonPanel, BorderLayout.SOUTH);
-		
-		this.setSize(600,350);
-		this.setVisible(true);
+		panel.add(textLabel);
+		return panel;
+	}
+	
+	private JPanel initPanelC() {
+		JPanel panel = new JPanel();
+		clear = new JButton("C");
+		clear.addActionListener(this);
+		panel.add(clear);
+		return panel;
 	}
 	
 	private JPanel initButtonPanel(){
@@ -62,7 +88,6 @@ public class Calculator extends JFrame implements ActionListener {
 		multiply = new JButton("*");
 		dot = new JButton(".");
 		equals = new JButton("=");
-		clear = new JButton("C");
 		
 		num1.addActionListener(this);
 		num2.addActionListener(this);
@@ -82,7 +107,7 @@ public class Calculator extends JFrame implements ActionListener {
 		multiply.addActionListener(this);
 		dot.addActionListener(this);
 		equals.addActionListener(this);
-		clear.addActionListener(this);
+		
 		
 		panel.add(num1);
 		panel.add(num2);
@@ -102,7 +127,6 @@ public class Calculator extends JFrame implements ActionListener {
 		panel.add(multiply);
 		panel.add(dot);
 		panel.add(equals);
-		panel.add(clear);
 		
 		return panel;
 	}
@@ -118,6 +142,37 @@ public class Calculator extends JFrame implements ActionListener {
 			this.textLabel.setText(content + input);
 		}
 	}
+	
+	float to_F(String str){
+		return Float.parseFloat(str);
+	}
+	
+	String to_S(float f){
+		return Float.toString(f);
+	}
+	
+	void add(){
+		calculation = "add";
+		number1 = to_F(this.textLabel.getText());
+	}
+	
+	void minus(){
+		calculation = "minus";
+		number1 = to_F(this.textLabel.getText());
+	}
+
+	void equals(){
+		number2 = to_F(this.textLabel.getText());
+		
+		if (calculation == "add"){
+			this.textLabel.setText(to_S(number1 + number2));
+		}
+		else if(calculation == "minus"){
+			this.textLabel.setText(to_S(number1 - number2));
+		}
+	}
+	
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -159,6 +214,28 @@ public class Calculator extends JFrame implements ActionListener {
 				break;
 			case "C": 
 				this.textLabel.setText("");
+				break;
+			//the action buttons:
+			case "+": 
+				add();
+				this.textLabel.setText("");
+				break;
+			case "-": 
+				minus();
+				this.textLabel.setText("");
+				break;
+			case "/": 
+				this.textLabel.setText("");
+				break;
+			case "*": 
+				this.textLabel.setText("");
+				break;
+			case ".": 
+				this.textLabel.setText("");
+				break;
+			case "=":
+				equals();
+				//this.textLabel.setText("");
 				break;
 			}
 		} 
